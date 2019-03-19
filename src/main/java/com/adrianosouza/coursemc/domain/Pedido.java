@@ -5,6 +5,8 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Pedido implements Serializable {
@@ -25,6 +27,9 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "endereco_entrega_id")
 	private Endereco enderecoEntrega;
+
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
 
 	public Pedido(){
 	}
@@ -85,6 +90,13 @@ public class Pedido implements Serializable {
 		Pedido pedido = (Pedido) o;
 
 		return id != null ? id.equals(pedido.id) : pedido.id == null;
+	}
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	@Override
